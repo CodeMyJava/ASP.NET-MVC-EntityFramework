@@ -12,7 +12,6 @@ namespace RentalManagement.Models
         public int ApplicantID { get; set; }
 
         [Required]
-        [StringLength(10,MinimumLength =3)]
         public string Name { get; set; }
 
         [Required]
@@ -21,6 +20,10 @@ namespace RentalManagement.Models
 
         [StringLength(500, ErrorMessage = "Cannot be more than 500 characters")]
         public string Details { get; set; }
+
+        [DataType(DataType.PhoneNumber)]
+        public int PhoneNumber { get; set; }
+
         public Guid AssetID { get; set; }
     }
 }
