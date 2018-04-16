@@ -57,7 +57,6 @@ namespace RentalManagement.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
             return View(tenant);
         }
 
@@ -112,14 +111,14 @@ namespace RentalManagement.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            Tenant tenant = db.Tenants.Find(id);
-
+            Tenant tenant = db.Tenants.Include("RequestedAssets").SingleOrDefault(s => s.ID == id);
             var store = new UserStore<ApplicationUser>(db);
             var manager = new UserManager<ApplicationUser, string>(store);
             var user = manager.Users.SingleOrDefault(u => u.Email == tenant.Email);
-            manager.RemoveFromRole(user.Id, "Tenant");
-            var result = manager.Delete(user);
 
+            var asset = db.Assets.Find(tenant.RequestedAssets.ID);
+            db.Entry(asset).State = EntityState.Modified;
+            asset.IsOccuppied = false;
             db.Tenants.Remove(tenant);
             db.SaveChanges();
             return RedirectToAction("Index");

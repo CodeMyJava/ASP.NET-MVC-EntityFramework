@@ -113,6 +113,12 @@ namespace RentalManagement.Controllers
                 asset.Appliances = appliances;
                 db.Assets.Add(asset);
                 db.SaveChanges();
+
+                //Adding occupancy
+
+
+                //Adding Rental information
+
                 return RedirectToAction("Index");
             }
 

@@ -156,8 +156,6 @@ namespace RentalManagement.Controllers
         {
             using (var db = new ApplicationDbContext())
             {
-                
-
                 Applicant applicant = db.Applicants.Find(id);
                 Asset asset = db.Assets.Find(applicant.AssetID);
                 db.Entry(asset).State = EntityState.Modified;
