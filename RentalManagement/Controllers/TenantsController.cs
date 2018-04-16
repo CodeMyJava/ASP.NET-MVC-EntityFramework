@@ -118,7 +118,7 @@ namespace RentalManagement.Controllers
             var manager = new UserManager<ApplicationUser, string>(store);
             var user = manager.Users.SingleOrDefault(u => u.Email == tenant.Email);
 
-            var asset = db.Assets.Find(tenant.RequestedAssets.ID);
+            var asset = db.Assets.Include("RentalHistory").SingleOrDefault(s => s.ID == tenant.RequestedAssets.ID);
             db.Entry(asset).State = EntityState.Modified;
             asset.IsOccuppied = false;
             db.Tenants.Remove(tenant);

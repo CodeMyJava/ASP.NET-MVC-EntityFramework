@@ -21,7 +21,7 @@ namespace RentalManagement.Controllers
         // GET: Applicants
         public ActionResult Index()
         {
-            return View(db.Applicants.OrderBy(s=>s.Name).ToList());
+            return View(db.Applicants.OrderBy(s=>s.Name).GroupBy(g=>g.Email).ToList());
         }
 
         // GET: Applicants/Details/5

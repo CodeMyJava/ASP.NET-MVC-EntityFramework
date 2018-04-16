@@ -14,11 +14,10 @@ namespace RentalManagement.Models
         [Required]
         public string Name { get; set; }
 
-        [Required]
         [EmailAddress]
         public string Email { get; set; }
 
-        [StringLength(500, ErrorMessage = "Cannot be more than 500 characters")]
+        [StringLength(20, ErrorMessage = "Cannot be more than 20 characters")]
         public string Details { get; set; }
 
         [DataType(DataType.PhoneNumber)]
