@@ -156,9 +156,11 @@ namespace RentalManagement.Controllers
         {
             using (var db = new ApplicationDbContext())
             {
+                
+
                 Applicant applicant = db.Applicants.Find(id);
                 Asset asset = db.Assets.Find(applicant.AssetID);
-
+                db.Entry(asset).State = EntityState.Modified;
                 Tenant tenant = new Tenant
                 {
                     ID = Guid.NewGuid(),
@@ -169,10 +171,10 @@ namespace RentalManagement.Controllers
                 };
                 db.Tenants.Add(tenant);
                 db.Applicants.Remove(applicant);
-                db.SaveChanges();
 
-                //asset.IsOccuppied = true;
-                //db.SaveChanges();
+                var changedAsset = db.Assets.Include("Address").SingleOrDefault(s => s.ID == applicant.AssetID);
+                changedAsset.IsOccuppied = true;
+                db.SaveChanges();
 
                 Tenant tenant2 = db.Tenants.Find(tenant.ID);
                 if (tenant2 != null)
@@ -201,6 +203,9 @@ namespace RentalManagement.Controllers
                     //};
                     //client.Send("myusername@gmail.com", applicant.Email , "Your Tenant Account", "Your password is: " + password);
                 }
+
+
+
             }
             return RedirectToAction("Index", "Home");
         }

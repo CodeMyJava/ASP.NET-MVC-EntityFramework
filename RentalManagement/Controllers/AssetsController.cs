@@ -271,7 +271,7 @@ namespace RentalManagement.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            Asset asset = db.Assets.Include("Appliances").Single(a => a.ID == id);
+            Asset asset = db.Assets.Include("Address").Include("Appliances").Single(a => a.ID == id);
 
             foreach (Appliance app in asset.Appliances)
             {
