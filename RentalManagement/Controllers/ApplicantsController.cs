@@ -13,6 +13,7 @@ using RentalManagement.Models;
 
 namespace RentalManagement.Controllers
 {
+    [Authorize(Roles = "Manager")]
     public class ApplicantsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -20,7 +21,7 @@ namespace RentalManagement.Controllers
         // GET: Applicants
         public ActionResult Index()
         {
-            return View(db.Applicants.ToList());
+            return View(db.Applicants.OrderBy(s=>s.Name).ToList());
         }
 
         // GET: Applicants/Details/5
@@ -72,7 +73,17 @@ namespace RentalManagement.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ApplicantID,Name,Email,Details,Asset")] Applicant applicant, Guid AssetID)
-        {   
+        {
+        //            [Key]
+        //public int ID { get; set; }
+
+        //[Key]
+        //public Asset AssetID { get; set; }
+
+        //[Key]
+        //public Tenant ClientID { get; set; }
+        //public DateTime NegotiatedOn { get; set; }
+
             if (ModelState.IsValid)
             {
                 applicant.AssetID = AssetID;
@@ -172,6 +183,24 @@ namespace RentalManagement.Controllers
 
                 var changedAsset = db.Assets.Include("Address").SingleOrDefault(s => s.ID == applicant.AssetID);
                 changedAsset.IsOccuppied = true;
+
+
+                //                public int ID { get; set; }
+
+                //public Asset AssetID { get; set; }
+
+                //public Tenant ClientID { get; set; }
+                //public DateTime NegotiatedOn { get; set; }
+                //public string Details { get; set; }
+                Rental rentals = new Rental
+                {
+                    AssetID = asset,
+                    ClientID = tenant,
+                    NegotiatedOn = DateTime.Now
+                };
+                //bool rentalExists = db.Rentals.Any(rental => rental.AssetID == asset);
+
+                db.Rentals.Add(rentals);
                 db.SaveChanges();
 
                 Tenant tenant2 = db.Tenants.Find(tenant.ID);

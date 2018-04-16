@@ -50,11 +50,13 @@ namespace RentalManagement.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Name,Email,Details")] Tenant tenant)
         {
+
             if (ModelState.IsValid)
             {
                 tenant.ID = Guid.NewGuid();
                 db.Tenants.Add(tenant);
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             return View(tenant);
