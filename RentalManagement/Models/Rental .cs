@@ -12,10 +12,8 @@ namespace RentalManagement.Models
         [Key]
         public int ID { get; set; }
 
-        [Key]
         public Asset AssetID { get; set; }
 
-        [Key]
         public Tenant ClientID { get; set; }
         public DateTime NegotiatedOn { get; set; }
         public string Details { get; set; }

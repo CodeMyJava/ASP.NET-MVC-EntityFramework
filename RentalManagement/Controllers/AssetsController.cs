@@ -91,7 +91,7 @@ namespace RentalManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,Type,AskingRent,Address")] Asset asset)
+        public ActionResult Create([Bind(Include = "ID,Name,Type,AskingRent,Address,RentalHistory")] Asset asset)
         {
             List<Appliance> appliances = new List<Appliance>();
 
