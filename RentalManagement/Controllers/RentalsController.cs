@@ -19,7 +19,7 @@ namespace RentalManagement.Controllers
         // GET: Rentals
         public ActionResult Index()
         {
-            return View(db.Rentals.ToList());
+            return View(db.Rentals.Include("AssetID").Include("ClientID").ToList());
         }
 
         // GET: Rentals/Details/5
